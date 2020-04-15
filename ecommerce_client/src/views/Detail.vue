@@ -1,45 +1,41 @@
 <template>
-  <div v-if="product.name">
+  <div v-if="detail.name">
     <h1>Detail Page</h1>
-    <img :src="product.image_url" width="200px" height="200px"/>
-    <h2> NAME: {{ product.name }} </h2>
-    <h2> PRICE: {{ product.price }} </h2>
-    <h2> STOCK: {{ product.stock }} </h2>
+    <img :src="detail.image_url" width="200px"/>
+    <h3> NAME: {{ detail.name }} </h3>
+    <h3> PRICE: {{ detail.price }} </h3>
+    <h3> STOCK: {{ detail.stock }} </h3>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'DetailPage',
-  data () {
-    return {
-      baseUrl: 'http://localhost:3000',
-      product: {}
+  methods: {
+    fetchDetail () {
+      const id = this.$route.params.id
+      return this.$store.dispatch('fetchDetail', { id })
+        .then(result => {
+          const product = result.data.result
+          this.$store.commit('SET_DETAIL', product)
+        })
+        .catch(err => {
+          this.$toasted.error(err).goAway(5000)
+          console.log(err)
+        })
+    }
+  },
+  computed: {
+    detail () {
+      return this.$store.state.detail
     }
   },
   created () {
     if (!localStorage.token) {
       this.$router.push('/')
     } else {
-      const id = this.$route.params.id
-
-      axios({
-        method: 'GET',
-        url: this.baseUrl + '/products/' + id,
-        headers: {
-          access_token: localStorage.token
-        }
-      })
-        .then(result => {
-          console.log(result)
-          this.product = result.data.result
-          console.log('Products', this.products)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this.$store.commit('SET_LOGIN', true)
+      this.fetchDetail()
     }
   }
 }

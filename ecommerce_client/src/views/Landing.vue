@@ -1,5 +1,5 @@
 <template>
-  <div class="container" id="landing">
+  <div class="container">
     <login-form />
   </div>
 </template>
@@ -21,7 +21,5 @@ export default {
 </script>
 
 <style>
-#landing {
-  color: red
-}
+
 </style>

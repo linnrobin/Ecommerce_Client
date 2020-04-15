@@ -1,8 +1,9 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Landing</router-link> |
-      <router-link to="/dashboard">Dashboard</router-link>
+  <div id="app" >
+    <div v-if="isLogin" id="nav">
+      <router-link to="/dashboard">Dashboard</router-link> |
+      <router-link to="/addProduct">Add Product</router-link> |
+      <a @click.prevent="logout" href="#">Logout</a>
     </div>
     <router-view/>
   </div>
@@ -10,24 +11,28 @@
 
 <script>
 export default {
-  // data () {
-  //   return {
-  //     // localhost
-  //     baseUrl: 'http://localhost:3000',
-
-  //     // firebase
-  //     // baseUrl: ''
-
-  //     user: {
-  //       email: '',
-  //       password: ''
-  //     }
-  //   }
-  // }
+  methods: {
+    logout () {
+      localStorage.clear()
+      this.$store.commit('SET_LOGIN', false)
+      this.$toasted.success('Log Out Successfully').goAway(5000)
+      this.$router.push('/')
+    }
+  },
+  computed: {
+    isLogin () {
+      return this.$store.state.isLogin
+    }
+  }
 }
 </script>
 
 <style>
+body {
+  align-items: flex-start;
+  justify-content: center;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

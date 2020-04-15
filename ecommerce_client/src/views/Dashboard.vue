@@ -1,15 +1,26 @@
 <template>
   <div>
-      Dashboard Page
-      <div>
-        <product v-for="product in products" :key="product.id" :product="product" />
+      <h1>Dashboard Page</h1>
+      <div class="row">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Stok</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <product v-for="product in products" :key="product.id" :product="product" />
+          </tbody>
+        </table>
       </div>
-      <button class="btn btn-lg btn-primary btn-block" @click.prevent="logout">Sign Out</button>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 import Product from '@/components/Product.vue'
 
 export default {
@@ -17,36 +28,17 @@ export default {
   components: {
     Product
   },
-  data () {
-    return {
-      baseUrl: 'http://localhost:3000',
-      products: []
-    }
-  },
-  methods: {
-    logout () {
-      localStorage.clear()
-      this.$router.push('/')
+  computed: {
+    products () {
+      return this.$store.state.products
     }
   },
   created () {
     if (!localStorage.token) {
       this.$router.push('/')
     } else {
-      axios({
-        method: 'GET',
-        url: this.baseUrl + '/products',
-        headers: {
-          access_token: localStorage.token
-        }
-      })
-        .then(result => {
-          this.products = result.data.result
-          console.log('Products', this.products)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this.$store.commit('SET_LOGIN', true)
+      this.$store.dispatch('fetchProduct')
     }
   }
 }

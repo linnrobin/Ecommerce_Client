@@ -1,7 +1,8 @@
 <template>
         <form class="form-signin" @submit.prevent="login">
           <div class="text-center mb-4">
-              <h1>ECommerce Admin Page</h1>
+              <h1>ECommerce</h1>
+              <h3>Admin Page</h3>
               <img src="../assets/logo.png" width="100px"/>
           </div>
 
@@ -20,19 +21,10 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'LoginForm',
-  // props: ['baseUrl', 'user'],
   data () {
     return {
-      // localhost
-      baseUrl: 'http://localhost:3000',
-
-      // firebase
-      // baseUrl: ''
-
       user: {
         email: '',
         password: ''
@@ -41,22 +33,17 @@ export default {
   },
   methods: {
     login () {
-      axios({
-        method: 'POST',
-        url: this.baseUrl + '/users/login',
-        data: {
-          email: this.user.email,
-          password: this.user.password
-        }
-      })
+      return this.$store.dispatch('login', { email: this.user.email, password: this.user.password })
         .then(result => {
           localStorage.setItem('token', result.data.access_token)
+          this.$store.commit('SET_LOGIN', true)
+          this.$toasted.success(`Welcome Back ${this.user.email}`).goAway(5000)
           this.user.email = ''
           this.user.password = ''
           this.$router.push('dashboard')
-          console.log('Successfully Logged In')
         })
         .catch(err => {
+          this.$toasted.error(err).goAway(5000)
           console.log(err)
         })
     }
