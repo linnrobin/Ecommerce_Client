@@ -7,10 +7,10 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     // localhost
-    // baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:3000',
 
     // heroku
-    baseUrl: 'https://ecommerce-server-robin.herokuapp.com',
+    // baseUrl: 'https://ecommerce-server-robin.herokuapp.com',
 
     isLogin: false,
     products: [],

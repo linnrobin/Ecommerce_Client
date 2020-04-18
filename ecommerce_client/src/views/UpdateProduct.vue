@@ -34,25 +34,14 @@ export default {
   data () {
     return {
       product: {
-        name: this.$store.state.detail.name,
-        image_url: this.$store.state.detail.image_url,
-        price: this.$store.state.detail.price,
-        stock: this.$store.state.detail.stock
+        name: '',
+        image_url: '',
+        price: '',
+        stock: ''
       }
     }
   },
   methods: {
-    fetchDetail () {
-      const id = this.$route.params.id
-      return this.$store.dispatch('fetchDetail', { id })
-        .then(result => {
-          const product = result.data.result
-          this.$store.commit('SET_DETAIL', product)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
     updateProduct () {
       const id = this.$route.params.id
       this.$store.dispatch('updateProduct', { id, name: this.product.name, image_url: this.product.image_url, price: this.product.price, stock: this.product.stock })
@@ -80,13 +69,23 @@ export default {
       return this.$store.state.detail
     }
   },
-  mounted () {
+  created () {
     if (!localStorage.token) {
       this.$router.push('/')
     } else {
       this.$store.commit('SET_LOGIN', true)
-      this.fetchDetail()
       this.$store.commit('SET_ISPRODUCTSPAGE', false)
+      const id = this.$route.params.id
+      this.$store.dispatch('fetchDetail', { id })
+        .then(result => {
+          this.product.name = result.data.result.name
+          this.product.image_url = result.data.result.image_url
+          this.product.price = result.data.result.price
+          this.product.stock = result.data.result.stock
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }
