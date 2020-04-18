@@ -39,6 +39,7 @@ export default {
     } else {
       this.$store.commit('SET_LOGIN', true)
       this.fetchDetail()
+      this.$store.commit('SET_ISPRODUCTSPAGE', false)
     }
   }
 }

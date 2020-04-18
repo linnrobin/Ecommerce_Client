@@ -50,7 +50,7 @@ export default {
           this.product.price = ''
           this.product.stock = ''
           this.$toasted.success(result.data.message).goAway(5000)
-          this.$router.push('dashboard')
+          this.$router.push('showProducts')
         })
         .catch(err => {
           if (err.response.data.errors) {
@@ -68,6 +68,7 @@ export default {
       this.$router.push('/')
     } else {
       this.$store.commit('SET_LOGIN', true)
+      this.$store.commit('SET_ISPRODUCTSPAGE', false)
     }
   }
 }

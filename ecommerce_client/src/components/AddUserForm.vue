@@ -58,7 +58,7 @@ export default {
             this.user.password = ''
             this.user.confirm = ''
             this.$toasted.success(result.data.message).goAway(5000)
-            this.$router.push('dashboard')
+            this.$router.push('showUsers')
           })
           .catch(err => {
             this.$toasted.error(err.response.data.errors[0].message).goAway(5000)
@@ -71,6 +71,7 @@ export default {
       this.$router.push('/')
     } else {
       this.$store.commit('SET_LOGIN', true)
+      this.$store.commit('SET_ISUSERSPAGE', false)
     }
   }
 }

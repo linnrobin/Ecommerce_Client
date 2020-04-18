@@ -7,14 +7,17 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     // localhost
-    baseUrl: 'http://localhost:3000',
+    // baseUrl: 'http://localhost:3000',
 
     // heroku
-    // baseUrl: 'https://ecommerce-server-robin.herokuapp.com',
+    baseUrl: 'https://ecommerce-server-robin.herokuapp.com',
 
     isLogin: false,
     products: [],
-    detail: {}
+    detail: {},
+    isProductsPage: true,
+    users: [],
+    isUsersPage: true
   },
   mutations: {
     SET_LOGIN (state, payload) {
@@ -25,6 +28,15 @@ const store = new Vuex.Store({
     },
     SET_DETAIL (state, payload) {
       state.detail = payload
+    },
+    SET_ISPRODUCTSPAGE (state, payload) {
+      state.isProductsPage = payload
+    },
+    SET_USER (state, payload) {
+      state.users = payload
+    },
+    SET_ISUSERSPAGE (state, payload) {
+      state.isUsersPage = payload
     }
   },
   actions: {
@@ -113,6 +125,23 @@ const store = new Vuex.Store({
           role: payload.role
         }
       })
+    },
+    fetchUser (context, payload) {
+      axios({
+        method: 'GET',
+        url: context.state.baseUrl + '/users',
+        headers: {
+          access_token: localStorage.token
+        }
+      })
+        .then(result => {
+          const users = result.data.result
+          context.commit('SET_USER', users)
+        })
+        .catch(err => {
+          this.$toasted.error(err).goAway(5000)
+          console.log(err)
+        })
     }
   }
 })

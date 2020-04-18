@@ -15,8 +15,10 @@
             <input v-model='user.password' type="password" id="password" class="form-control" placeholder="Password" required>
             <label for="inputPassword">Password</label>
           </div>
-
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <div v-if="isLoading" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <button v-else class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
 </template>
 
@@ -28,11 +30,13 @@ export default {
       user: {
         email: '',
         password: ''
-      }
+      },
+      isLoading: false
     }
   },
   methods: {
     login () {
+      this.isLoading = true
       return this.$store.dispatch('login', { email: this.user.email, password: this.user.password })
         .then(result => {
           localStorage.setItem('token', result.data.access_token)
@@ -44,6 +48,9 @@ export default {
         })
         .catch(err => {
           this.$toasted.error(err.response.data.errors[0].message).goAway(5000)
+        })
+        .finally(() => {
+          this.isLoading = false
         })
     }
   }
