@@ -1,10 +1,13 @@
 <template>
-  <div v-if="detail.name">
+  <div v-if="detail.name" class="board">
     <h1>Detail Page</h1>
     <img :src="detail.image_url" width="200px"/>
     <h3> NAME: {{ detail.name }} </h3>
     <h3> PRICE: {{ detail.price }} </h3>
     <h3> STOCK: {{ detail.stock }} </h3>
+    <h3> CREATED BY: {{ detail.User.email }} </h3>
+    <h3> CREATED AT: {{ detail.createdAt }} </h3>
+    <h3> LAST UPDATED AT: {{ detail.updatedAt }} </h3>
   </div>
 </template>
 
@@ -42,5 +45,10 @@ export default {
 </script>
 
 <style>
+.board {
+  border-radius: 10px;
+  background-color: lightgray;
+  padding: 20px
+}
 
 </style>

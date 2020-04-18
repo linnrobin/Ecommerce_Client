@@ -4,6 +4,7 @@
   <td>{{ product.name }}</td>
   <td>{{ product.price }}</td>
   <td>{{ product.stock }}</td>
+  <td>{{ cutEmail }}</td>
   <td>
     <router-link :to="{name: 'detail', params: {id: product.id}}">
       Detail
@@ -31,6 +32,19 @@ export default {
           this.$toasted.error(err).goAway(5000)
           console.log(err)
         })
+    }
+  },
+  computed: {
+    cutEmail () {
+      let admin = ''
+      for (let i = 0; i < this.product.User.email.length; i++) {
+        if (this.product.User.email[i] !== '@') {
+          admin += this.product.User.email[i]
+        } else {
+          i = this.product.User.email.length
+        }
+      }
+      return admin
     }
   }
 }

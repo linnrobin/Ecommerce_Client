@@ -9,6 +9,7 @@
               <th>Name</th>
               <th>Price</th>
               <th>Stok</th>
+              <th>Created By</th>
               <th>Action</th>
             </tr>
           </thead>

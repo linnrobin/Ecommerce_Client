@@ -5,6 +5,7 @@ import Dashboard from '../views/Dashboard.vue'
 import Detail from '../views/Detail.vue'
 import AddProduct from '../views/AddProduct.vue'
 import UpdateProduct from '../views/UpdateProduct.vue'
+import AddUser from '../views/AddUser.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/updateProduct/:id',
     name: 'updateProduct',
     component: UpdateProduct
+  },
+  {
+    path: '/addUser',
+    name: 'addUser',
+    component: AddUser
   }
 ]
 

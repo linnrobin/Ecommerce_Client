@@ -53,8 +53,13 @@ export default {
           this.$router.push('dashboard')
         })
         .catch(err => {
-          console.log(this.product.price)
-          this.$toasted.error(err).goAway(5000)
+          if (err.response.data.errors) {
+            for (let i = 0; i < err.response.data.errors.length; i++) {
+              this.$toasted.error(err.response.data.errors[i].message).goAway(5000)
+            }
+          } else {
+            this.$toasted.error(err.response.data.name).goAway(5000)
+          }
         })
     }
   },

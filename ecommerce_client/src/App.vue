@@ -3,6 +3,7 @@
     <div v-if="isLogin" id="nav">
       <router-link to="/dashboard">Dashboard</router-link> |
       <router-link to="/addProduct">Add Product</router-link> |
+      <router-link to="/addUser">Add User</router-link> |
       <a @click.prevent="logout" href="#">Logout</a>
     </div>
     <router-view/>

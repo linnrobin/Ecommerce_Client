@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     baseUrl: 'http://localhost:3000',
 
     // heroku
-    // baseUrl: 'https://ecommerce-server-robin.herokuapp.com/',
+    // baseUrl: 'https://ecommerce-server-robin.herokuapp.com',
 
     isLogin: false,
     products: [],
@@ -100,6 +100,17 @@ const store = new Vuex.Store({
         url: context.state.baseUrl + '/products/' + payload.id,
         headers: {
           access_token: localStorage.token
+        }
+      })
+    },
+    addUser (context, payload) {
+      return axios({
+        method: 'POST',
+        url: context.state.baseUrl + '/users/register',
+        data: {
+          email: payload.email,
+          password: payload.password,
+          role: payload.role
         }
       })
     }

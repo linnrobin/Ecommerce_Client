@@ -65,8 +65,13 @@ export default {
           this.$router.push({ name: 'dashboard' })
         })
         .catch(err => {
-          this.$toasted.error(err).goAway(5000)
-          console.log(err)
+          if (err.response.data.errors) {
+            for (let i = 0; i < err.response.data.errors.length; i++) {
+              this.$toasted.error(err.response.data.errors[i].message).goAway(5000)
+            }
+          } else {
+            this.$toasted.error(err.response.data.name).goAway(5000)
+          }
         })
     }
   },

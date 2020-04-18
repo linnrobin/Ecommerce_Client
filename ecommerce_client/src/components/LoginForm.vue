@@ -43,8 +43,7 @@ export default {
           this.$router.push('dashboard')
         })
         .catch(err => {
-          this.$toasted.error(err).goAway(5000)
-          console.log(err)
+          this.$toasted.error(err.response.data.errors[0].message).goAway(5000)
         })
     }
   }
