@@ -12,7 +12,7 @@
     <router-link :to="{name: 'updateProduct', params: {id: product.id}}">
       Update
     </router-link> |
-    <a @click.prevent="deleteProduct">Delete</a>
+    <a @click.prevent="deleteProduct" href="#">Delete</a>
   </td>
 </tr>
 </template>
